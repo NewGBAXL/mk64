@@ -40,9 +40,12 @@ enum SubMenuSelectionType {
     SUB_MENU_OPTION_MIN = 0x15,
     SUB_MENU_OPTION_RETURN_GAME_SELECT = SUB_MENU_OPTION_MIN,
     SUB_MENU_OPTION_SOUND_MODE,
+#if ENABLE_RUMBLE
+	SUB_MENU_OPTION_RUMBLE,
+#endif
     SUB_MENU_OPTION_COPY_CONTROLLER_PAK,
     SUB_MENU_OPTION_ERASE_ALL_DATA,
-    SUB_MENU_OPTION_MAX = SUB_MENU_OPTION_ERASE_ALL_DATA, // 0x18
+    SUB_MENU_OPTION_MAX = SUB_MENU_OPTION_ERASE_ALL_DATA, // 0x18/0x19
     SUB_MENU_ERASE_MIN = 0x1E,
     SUB_MENU_ERASE_QUIT = SUB_MENU_ERASE_MIN,
     SUB_MENU_ERASE_ERASE,
@@ -231,6 +234,7 @@ extern s8 gDebugMenuSelection;
 extern s8 gControllerPakMenuSelection;
 extern s8 gScreenModeListIndex;
 extern u8 gSoundMode;
+extern u8 gRumble;
 extern s8 gPlayerCount;
 extern s8 gVersusResultCursorSelection;
 extern s8 gTimeTrialsResultCursorSelection;

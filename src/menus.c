@@ -259,6 +259,9 @@ void options_menu_act(struct Controller* controller, u16 controllerIdx) {
         switch (gSubMenuSelection) {
             case SUB_MENU_OPTION_RETURN_GAME_SELECT:
             case SUB_MENU_OPTION_SOUND_MODE:
+        #if ENABLE_RUMBLE
+			case SUB_MENU_OPTION_RUMBLE:
+        #endif
             case SUB_MENU_OPTION_COPY_CONTROLLER_PAK:
             case SUB_MENU_OPTION_ERASE_ALL_DATA: {
                 tempVar = false;
@@ -321,6 +324,23 @@ void options_menu_act(struct Controller* controller, u16 controllerIdx) {
                                     return;
                             }
                             break;
+                    #if ENABLE_RUMBLE
+						case SUB_MENU_OPTION_RUMBLE:
+                            if (!gRumble) {
+                                //if rumble pak connected
+                                gRumble = 1;
+                                play_sound2(SOUND_MENU_SELECT);
+                                set_rumble();
+
+                                //else
+                                //play_sound2(SOUND_MENU_FILE_NOT_FOUND);
+                            }
+                            else {
+                                gRumble = 0;
+                                play_sound2(SOUND_MENU_SELECT);
+                                set_rumble();
+                            }
+                    #endif
                         case SUB_MENU_OPTION_COPY_CONTROLLER_PAK:
                             switch (controller_pak_2_status()) {
                                 case PFS_INVALID_DATA:
@@ -1989,6 +2009,15 @@ void set_sound_mode(void) {
         func_800C3448(pack.modes[gSoundMode] | 0xE0000000);
     }
 }
+
+/**
+ * Self explanatory, sets rumble state
+ */
+#if ENABLE_RUMBLE
+void set_rumble(void) {
+    return;
+}
+#endif
 
 /**
  * Checks is a fade render mode is active so menus can't be
