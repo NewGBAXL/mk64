@@ -10,6 +10,7 @@
 #include "save_data.h"
 #include "staff_ghosts.h"
 #include "code_80057C60.h"
+#include "rumble_init.h"
 
 /*** macros ***/
 #define PFS_COMPANY_CODE(c0, c1) ((u16) (((c0) << 8) | ((c1))))
@@ -45,12 +46,12 @@ void func_800B45E0(s32 arg0) {
 
     courseTimeTrialRecordsPtr->checksum = checksum_time_trial_records(arg0);
 #if ENABLE_RUMBLE
-    block_until_rumble_pak_free();
+    //block_until_rumble_pak_free();
 #endif
     osEepromLongWrite(&gSIEventMesgQueue, EEPROM_ADDR(courseTimeTrialRecordsPtr), (u8*) courseTimeTrialRecordsPtr,
                       sizeof(CourseTimeTrialRecords));
 #if ENABLE_RUMBLE
-    release_rumble_pak_control();
+    //release_rumble_pak_control();
 #endif
 }
 
@@ -59,11 +60,11 @@ void write_save_data_grand_prix_points_and_sound_mode(void) {
     main->checksum[1] = compute_save_data_checksum_1();
     main->checksum[2] = compute_save_data_checksum_2();
 #if ENABLE_RUMBLE
-    block_until_rumble_pak_free();
+    //block_until_rumble_pak_free();
 #endif
     osEepromLongWrite(&gSIEventMesgQueue, EEPROM_ADDR(main), (u8*) main, sizeof(Stuff));
 #if ENABLE_RUMBLE
-    release_rumble_pak_control();
+    //release_rumble_pak_control();
 #endif
 
 }
@@ -151,11 +152,11 @@ void load_save_data(void) {
     s32 i;
 
 #if ENABLE_RUMBLE
-    block_until_rumble_pak_free();
+    //block_until_rumble_pak_free();
 #endif
     osEepromLongRead(&gSIEventMesgQueue, EEPROM_ADDR(&gSaveData), (u8*) &gSaveData, sizeof(SaveData));
 #if ENABLE_RUMBLE
-    release_rumble_pak_control();
+    //release_rumble_pak_control();
 #endif
     // 16: 4 cup records * 4 course records?
     for (i = 0; i < 16; i++) {
@@ -234,11 +235,11 @@ void validate_save_data(void) {
             main->checksum[1] = compute_save_data_checksum_backup_1();
             main->checksum[2] = compute_save_data_checksum_backup_2();
 #if ENABLE_RUMBLE
-            block_until_rumble_pak_free();
+            //block_until_rumble_pak_free();
 #endif
             osEepromLongWrite(&gSIEventMesgQueue, EEPROM_ADDR(main), (u8*) main, sizeof(Stuff));
 #if ENABLE_RUMBLE
-            release_rumble_pak_control();
+            //release_rumble_pak_control();
 #endif
         }
         update_save_data_backup();
@@ -483,12 +484,12 @@ void func_800B559C(s32 arg0) {
     bestRecord->unknownBytes[6] = func_800B578C(x);
     bestRecord->unknownBytes[7] = func_800B5888(x);
 #if ENABLE_RUMBLE
-    block_until_rumble_pak_free();
+    //block_until_rumble_pak_free();
 #endif
     osEepromLongWrite(&gSIEventMesgQueue, ((u32) (((u8*) bestRecord) - ((u8*) (&gSaveData)))) >> 3,
                       bestRecord->bestThreelaps[0], 0x38);
 #if ENABLE_RUMBLE
-    release_rumble_pak_control();
+    //release_rumble_pak_control();
 #endif
 }
 
@@ -546,11 +547,11 @@ void update_save_data_backup(void) {
     backup->checksum[1] = compute_save_data_checksum_backup_1();
     backup->checksum[2] = compute_save_data_checksum_backup_2();
 #if ENABLE_RUMBLE
-    block_until_rumble_pak_free();
+    //block_until_rumble_pak_free();
 #endif
     osEepromLongWrite(&gSIEventMesgQueue, EEPROM_ADDR(backup), (u8*) backup, sizeof(Stuff));
 #if ENABLE_RUMBLE
-    release_rumble_pak_control();
+    //release_rumble_pak_control();
 #endif
 }
 

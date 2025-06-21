@@ -2,6 +2,7 @@
 #define RUMBLE_INIT_H
 
 #include "config.h"
+#include <PR/os.h>
 
 #if ENABLE_RUMBLE
 
@@ -25,28 +26,29 @@ struct RumbleSettings {
 
 extern OSThread gRumblePakThread;
 
-extern OSPfs gRumblePakPfs;
+extern OSPfs gRumblePakPfs[4];
 
 extern OSMesg gRumblePakSchedulerMesgBuf;
 extern OSMesgQueue gRumblePakSchedulerMesgQueue;
 extern OSMesg gRumbleThreadVIMesgBuf;
 extern OSMesgQueue gRumbleThreadVIMesgQueue;
 
-extern struct RumbleData gRumbleDataQueue[3];
-extern struct RumbleSettings gCurrRumbleSettings;
+extern struct RumbleData gRumbleDataQueue[4][3];
+extern struct RumbleSettings gCurrRumbleSettings[4];
 
-extern s32 gRumblePakTimer;
+extern s32 gRumblePakTimer[4];
 
 void init_rumble_pak_scheduler_queue(void);
 void block_until_rumble_pak_free(void);
 void release_rumble_pak_control(void);
-void queue_rumble_data(s16 a0, s16 a1);
-void func_sh_8024C89C(s16 a0);
-u8 is_rumble_finished_and_queue_empty(void);
-void reset_rumble_timers(void);
-void reset_rumble_timers_2(s32 a0);
-void func_sh_8024CA04(void);
-void cancel_rumble(void);
+void queue_rumble_data(s16 port, s16 time, s16 level);
+void queue_rumble_decay(s16 port, s16 decay);
+u8 is_rumble_finished_and_queue_empty_all(void);
+u8 is_rumble_finished_and_queue_empty(s16 port);
+void reset_rumble_timers_slip(s16 port);
+void reset_rumble_timers_vibrate(s16 port, s32 a0);
+void cancel_rumble_all(void);
+void cancel_rumble(s16 port);
 void create_thread_6(void);
 void rumble_thread_update_vi(void);
 

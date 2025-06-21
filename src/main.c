@@ -39,6 +39,7 @@
 #include <debug.h>
 #include "crash_screen.h"
 #include "buffers/gfx_output_buffer.h"
+#include "rumble_init.h"
 
 void func_80091B78(void);
 void audio_init(void);
@@ -155,6 +156,9 @@ OSThread gAudioThread;
 ALIGNED8 u8 gAudioThreadStack[STACKSIZE];
 UNUSED OSThread D_8015CD30;
 UNUSED ALIGNED8 u8 D_8015CD30_Stack[STACKSIZE / 2];
+#if ENABLE_RUMBLE
+ALIGNED8 u8 gRumbleThreadStack[STACKSIZE];
+#endif
 
 ALIGNED8 u8 gGfxSPTaskYieldBuffer[4352];
 ALIGNED8 u32 gGfxSPTaskStack[256];
@@ -1208,7 +1212,7 @@ void thread5_game_loop(UNUSED void* arg) {
 
     while (true) {
 #if ENABLE_RUMBLE
-        block_until_rumble_pak_free();
+        //block_until_rumble_pak_free();
 #endif
 
         func_800CB2C4();
